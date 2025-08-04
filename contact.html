@@ -15,6 +15,12 @@
         --accentColor: #403b3cff;
     }
     @font-face {
+        font-family: 'CormorantGaramondLight';
+        src: url('./asset/CormorantGaramond-Light.ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
         font-family: 'AdobeSong';
         src: url('./asset/AdobeSongStdL.otf') format('opentype');
         font-weight: normal;
@@ -31,7 +37,7 @@
         padding: 0;
 
         color: var(--accentColor);
-        font-family: 'AdobeSong', sans-serif;
+        font-family: 'AdobeSong','CormorantGaramondLight','Adobe Song Std','AdobeSong', 'Times New Roman', Times, serif;
         font-size: calc(var(--squareSize) *8/100);
         
         display: flex;
