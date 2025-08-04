@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akebi</title>
+</head>
+<style>
+    :root{
+        --squareSize : min(100vh,100vw);
+        /* --buttonGap : 15px; */
+        
+        --buttonGap: calc(var(--squareSize)/50);
+        --bentoSectionSize : calc((var(--squareSize) - (var(--buttonGap)*6))/3);
+        --bentoCornerRadius : calc(var(--bentoSectionSize)/2);
+
+        --lineThickness : calc(var(--buttonGap)/4);
+
+        --accentColor: #403b3cff;
+    }
+    @font-face {
+        font-family: 'AdobeSong';
+        src: url('/asset/Adobe\ Song\ Std\ L.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    *{
+        transform-style: preserve-3d;
+    }
+
+    body{
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+
+        color: var(--accentColor);
+        font-family: 'AdobeSong', sans-serif;
+        font-size: calc(var(--squareSize) *8/100);
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        perspective: 1000px;
+        /* background-image: url(/asset/bg/main.png);
+        background-repeat: no-repeat;
+        background-size: cover; */
+        /* background-color:white; */
+        
+
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    #bg{
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        background-image: url(/asset/bg/main.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(50px);
+        z-index: -1;
+    }
+
+    #buttonContainer{
+        /* background-color: #fff3; */
+        
+        box-sizing: border-box;
+        width: var(--squareSize);
+        height: var(--squareSize);
+        padding: calc(var(--buttonGap)*2) ;
+        
+        display: flex;
+        flex-direction: column;
+        gap: var(--buttonGap);
+        
+    }
+    
+    #topBtn{
+        /* background-color: #fff3; */
+        width: 100%;
+        height: var(--bentoSectionSize);
+        
+        display: flex;
+        gap: var(--buttonGap);
+    }
+    
+    #bottomBtn{
+        /* background-color: #fff3; */
+        width: 100%;
+        height: calc(var(--bentoSectionSize)*2 + var(--buttonGap));
+        
+        display: flex;
+        gap: var(--buttonGap);
+    }
+
+    
+
+    #releasesBtn{
+        background-color: #fff3;
+        height: 100%;
+        width: calc(var(--bentoSectionSize)*2 + var(--buttonGap));
+ 
+        border-radius: 0 var(--bentoCornerRadius) 0 0;
+        
+        background-image: url(/asset/bg/bento/releases.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        display: flex;
+        gap: var(--buttonGap);
+        
+        position: relative;/*to make the dot absolite position refer to this*/
+    }
+    #releasesText{
+        width: 50%;
+        height: 100%;
+
+        text-align: center;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    #releasesCircleContainer{
+        width: 50%;
+        height: 100%;
+        
+        box-sizing: border-box;
+        padding: var(--buttonGap);
+    }
+    #releasesCircle{
+        width: 100%;
+        height: 100%;
+
+        border-radius: 100%;
+        box-sizing: border-box;
+        border: solid var(--lineThickness) var(--accentColor);
+    }
+    
+
+    .releasesDot {
+      width: var(--buttonGap);
+      height: var(--buttonGap);
+      background: var(--accentColor);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .releasesDot.top-left {
+      top: var(--buttonGap);
+      left: var(--buttonGap);
+    }
+
+    .releasesDot.bottom-right {
+      bottom: var(--buttonGap);
+      right: var(--buttonGap);
+    }
+    
+    #contactBtn{
+        background-color: #fff3;
+        height: 100%;
+        width: var(--bentoSectionSize);
+        
+        border-radius: 0 var(--bentoCornerRadius) 0 0;
+
+        background-image: url(/asset/bg/bento/contact.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+        position: relative;/*to make the dot absolite position refer to this*/
+    }
+    #contactText{
+        height: 100%;
+        
+        text-align: center;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    #contactDot{
+        --size : calc(var(--bentoSectionSize)*15/100);
+        /* --size : var(--buttonGap     ); */
+        background: var(--accentColor);
+
+        width: var(--size);
+        height: var(--size);
+        
+        background: var(--accentColor);
+        border-radius: 100%;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+
+        transform:translate(-50%,-50%);
+    }
+
+    
+    
+    #akebi{
+        background-color: #fff3;
+        height: calc(var(--bentoSectionSize)*2 + var(--buttonGap));
+        width: calc(var(--bentoSectionSize)*2 + var(--buttonGap));
+        
+        border-radius: 0 0 var(--bentoCornerRadius) 0;
+        
+        background-image: url(/asset/bg/bento/akebi.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    
+    #bottomRightBtn{
+        /* background-color: #fff3; */
+        height: calc(var(--bentoSectionSize)*2 + var(--buttonGap));
+        width: var(--bentoSectionSize);
+        
+        display: flex;
+        flex-direction: column;
+        gap: var(--buttonGap);
+    }
+    #aboutBtn{
+        background-color: #fff3;
+        height: var(--bentoSectionSize);
+        width: var(--bentoSectionSize);
+        
+        border-radius: 0 0 var(--bentoCornerRadius) var(--bentoCornerRadius);
+
+        background: radial-gradient(circle at bottom left, #be9f16ff,#ede1c8ff, #eeeff1ff);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        
+        box-sizing: border-box;
+        padding: var(--buttonGap);
+    }
+    #aboutText{
+        height: 50%;
+        width: 100%;
+        text-align: center;
+
+        /* transform: translateY(0.25em); */
+    }
+    #aboutDeco{
+        height: 50%;
+        box-sizing: border-box;
+        border-radius: 0 0 100vh 100vh;
+        border: solid var(--lineThickness) var(--accentColor);
+
+    }
+    
+    #shopBtn{
+        height: var(--bentoSectionSize);
+        width: var(--bentoSectionSize);
+        
+        border-radius: var(--bentoCornerRadius);
+
+        background-color: #ede1c8ff;
+        
+        box-sizing: border-box;
+        padding: var(--buttonGap);
+        
+        box-shadow: 0 0 100px #403b3c22;
+    }
+    #shopCircle{
+        width: 100%;
+        height: 100%;
+        border: solid var(--lineThickness) var(--accentColor);
+        border-radius: 100%;
+        background-color: #fff3;
+    
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #shopText{
+        text-align: center;
+        width: 100%;
+    }
+
+    .button{
+        cursor: pointer;
+        transition: filter 0.4s, scale 0.4s, rotate 0.4s;
+    }
+    .button:hover{
+        filter:contrast(120%);
+        /* scale: 103%; */
+        rotate: 0 -1 0 20deg;
+    }
+    .button#releasesBtn:hover{
+        rotate: 0 1 0 8deg;
+    }
+    /* .button#contactBtn:hover{
+        rotate: 0 -1 0 20deg;
+    } */
+    /* .button#aboutBtn:hover{
+        rotate: 0 -1 0 20deg;
+    } */
+    /* .button#shopBtn:hover{
+        rotate: 0 -1 0 20deg;
+    } */
+    
+    /* .button#contactBtn:hover{
+        background-image: url(/asset/bg/contact.gif);
+    } */
+
+</style>
+<body>
+    <!-- <div id="bg"></div> -->
+    <div id="buttonContainer">
+        <div id="topBtn">
+            <div id="releasesBtn" class="button">
+
+                <div class="releasesDot bottom-right"></div>
+                <div class="releasesDot top-left"></div>
+
+                <div id="releasesText">releases</div>
+                <div id="releasesCircleContainer">
+                    <div id="releasesCircle"></div>
+                </div>
+            </div>
+            <div id="contactBtn" class="button">
+                <div id="contactText">contact</div>
+                <div id="contactDot"></div>
+            </div>
+        </div>
+        <div id="bottomBtn">
+            <div id="akebi"></div>
+            <div id="bottomRightBtn">
+                <div id="aboutBtn" class="button">
+                    <span id="aboutText">about</span>
+                    <div id="aboutDeco"></div>
+                </div>
+                <div id="shopBtn" class="button">
+                    <div id="shopCircle">
+                        <div id="shopText">shop</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function transition(){
+        
+    }
+
+    document.getElementById('releasesBtn').addEventListener('click', () => {
+         
+    });
+    document.getElementById('contactBtn').addEventListener('click', () => {
+         
+    });
+    document.getElementById('aboutBtn').addEventListener('click', () => {
+         
+    });
+    document.getElementById('shopBtn').addEventListener('click', () => {
+         
+    });   
+</script>
+</html>

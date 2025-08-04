@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akebi</title>
+</head>
+<style>
+    :root{
+        --squareSize : min(100vh,100vw);
+        /* --buttonGap : 15px; */
+        --gapSize : 30px;
+        --dotSize : calc(var(--gapSize)/3);
+
+        --accentColor: #403b3cff;
+    }
+    @font-face {
+        font-family: 'AdobeSong';
+        src: url('/asset/Adobe\ Song\ Std\ L.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+
+    body{
+        /* background-color: white; */
+        background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
+
+        margin: 0;
+        padding: 0;
+
+        color: var(--accentColor);
+        font-family: 'AdobeSong', sans-serif;
+        font-size: calc(var(--squareSize) *8/100);
+        
+        display: flex;
+        /* justify-content: center;
+        align-items: center; */
+
+        /* width: 100vw;
+        height: 100vh; */
+        
+
+    }
+    #bg{
+        position: fixed;
+        background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
+        top: 0;
+
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+    }
+
+    .dot{
+        z-index: 1;
+        width: var(--dotSize);
+        height: var(--dotSize);
+        background: var(--accentColor);
+        border-radius: 50%;
+        position:fixed;
+    }
+
+    #tlDot{
+        z-index: 1;
+      top: var(--dotSize);
+      left: var(--dotSize);   
+    }
+
+    #brDot{
+        z-index: 1;
+      bottom: var(--dotSize);
+      right: var(--dotSize);   
+    }
+
+    #circle{
+        z-index: 1;
+        position:fixed;
+        top: var(--gapSize);
+        right: var(--gapSize);  
+        height: calc(100vh - var(--gapSize) - var(--gapSize));
+        width: calc(100vh - var(--gapSize) - var(--gapSize));
+        /* background: var(--accentColor); */
+        border: 3px var(--accentColor) solid;
+        border-radius: 50%;
+    }
+    
+
+    #releasesText{
+        z-index: 3;
+        position:fixed;
+        bottom: var(--gapSize);
+        left: var(--gapSize);   
+        line-height: 0.7;
+    }
+
+    #releaseContainer{
+        /* display: flex;
+        flex-direction: row; */
+        /* gap:var(--gapSize) ; */
+        padding: var(--gapSize);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gapSize);
+        
+        z-index: 2;
+    }
+    
+    .release{
+        --buttonSize:min(125px,calc((var(--squareSize) - (var(--gapSize)*4))/4));
+        display: flex;
+        /* justify-content: center; */
+        align-items: center;
+        gap: var(--gapSize);
+    }
+    .artwork{
+        height: calc(var(--buttonSize)*2);
+        width: calc(var(--buttonSize)*2);
+    }
+    .linkImage{
+        height: var(--buttonSize);
+        width: var(--buttonSize);
+    }
+
+
+
+
+</style>
+<body>
+    <div id="tlDot" class="dot"></div>
+    <div id="brDot" class="dot"></div>
+    <div id="circle"></div>
+    <div id="releaseContainer">
+        <div class="release">
+            <img class="artwork" src="asset/bg/song cover/memento mori.jpg" alt="" class="linkImage">
+            <a href="" class="soundcloudButton"><img src="asset/icon/soundcloud brown.png" alt="" class="linkImage"></a>
+            <a href="" class="spotifyButton"><img src="asset/icon/spotify brown.png" alt="" class="linkImage"></a>
+        </div>
+        <div class="release">
+            <img class="artwork" src="asset/bg/song cover/wishful.jpg" alt="" class="linkImage">
+            <a href="" class="soundcloudButton"><img src="asset/icon/soundcloud brown.png" alt="" class="linkImage"></a>
+            <a href="" class="spotifyButton"><img src="asset/icon/spotify brown.png" alt="" class="linkImage"></a>
+        </div>
+    </div>
+    <div id="releasesText">releases</div>
+</body>
+<script> 
+</script>
+</html>

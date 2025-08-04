@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bento Layout</title>
+  <style>
+    .hideOverflow{
+      overflow: hidden;
+      background-color: gray;
+      width: 10vw;
+      height: 30px;
+    }
+    .absolute{
+      position: relative;
+    }
+    .overflow{
+      background-color: antiquewhite;
+      width: 100vw;
+      height: 10px;
+    }
+
+    body{
+        background-color: white;
+        margin: 0;
+        padding: 0;
+
+        color: var(--accentColor);
+        font-family: 'AdobeSong', sans-serif;
+        font-size: calc(var(--squareSize) *8/100);
+        
+        perspective: 100px;
+        /* background-image: url(/asset/bg/main.png);
+        background-repeat: no-repeat;
+        background-size: cover; */
+        /* background-color:white; */
+        
+
+    }
+    .faceUp{
+      transform: rotateX(90deg);
+      /* background-color: ; */
+    }
+  </style>
+</head>
+<body>
+  <div style="
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: red;
+    padding: 1em;
+  ">
+    I stay here always
+  </div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp" style="transform: scaleX(2); display: inline-block;">
+    STRETCHED TEXT
+  </div>  
+  <div class="faceUp">stuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <!-- <div class="faceUp">stuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaaoooooooooooouuuuuuuuf</div> -->
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <!-- <marquee class="faceUp">stuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuiiiiiiiiiiiiiiiiiiiiiiiiiiiaaaaaaaaaaaaaaaaaaaoooooooooooouuuuuuuuf</marquee> -->
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+  <div class="faceUp">stuuf</div>
+</body>
+<script>
+  window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const maxScroll = document.body.scrollHeight; 
+  // Normalize scroll to a percentage
+  const scrollPercent = (scrollY + (window.innerHeight/3*2)) / maxScroll;
+
+  // Map it to vertical perspective origin (0% at top, 100% at bottom)
+  const originY = scrollPercent * 100;
+
+  // Optionally do something with horizontal movement too
+  const originX = 50;
+
+  document.body.style.perspectiveOrigin = `${originX}% ${originY}%`;
+});
+
+</script>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bento Layout</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .item {
+      background: black;
+    }
+
+    .a { grid-column: 1 / 2; grid-row: 1 / 3; }
+    .b { grid-column: 2 / 4; grid-row: 1 / 2; }
+    .c { grid-column: 2 / 3; grid-row: 2 / 3; }
+    .d { grid-column: 3 / 4; grid-row: 2 / 4; }
+    .e { grid-column: 1 / 3; grid-row: 3 / 4; }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="item a"></div>
+    <div class="item b"></div>
+    <div class="item c"></div>
+    <div class="item d"></div>
+    <div class="item e"></div>
+  </div>
+</body>
+</html> -->
+
+
+<!-- ----------------------------------------------------------------- -->
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      width: 400px;
+      height: 200px;
+      background: linear-gradient(90deg, #c8bcb0, #e5e5e5, #f8f8f8); /* mimic blurry gradient */
+      border-top-right-radius: 100px;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .card .text {
+      font-family: serif;
+      font-size: 32px;
+      color: #333;
+      padding: 60px 30px;
+    }
+
+    .circle-outline {
+      width: 120px;
+      height: 120px;
+      border: 2px solid #333;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: #333;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .dot.top-left {
+      top: 5px;
+      left: 5px;
+    }
+
+    .dot.bottom-right {
+      bottom: 5px;
+      right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="text">releases</div>
+    <div class="circle-outline"></div>
+    <div class="dot top-left"></div>
+    <div class="dot bottom-right"></div>
+  </div>
+</body>
+</html> -->
+
+
+
