@@ -28,9 +28,12 @@
     *{
         transform-style: preserve-3d;
     }
-
+    a {
+      all: unset;
+        }
     body{
-        background-color: white;
+        background-color: black;
+        background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
         margin: 0;
         padding: 0;
         width: 100vw;
@@ -53,6 +56,8 @@
 
         user-select: none;
         -webkit-tap-highlight-color: transparent;
+
+        overflow: hidden;
     }
     #bg{
         position: absolute;
@@ -286,15 +291,30 @@
 
     .button{
         cursor: pointer;
-        transition: filter 0.4s, scale 0.4s, rotate 0.4s;
+        /* transition: filter 0.4s, scale 0.4s, rotate 0.4s; */
+        /* transition: rotate 0.4s; */
+        /* transition: rotate 0.4s; */
     }
+    .button:hover{
+        /* filter:contrast(120%); */
+        /* scale: 103%; */
+        /* transition: rotate 0.1s; */
+        rotate: 0 -1 0 0deg;
+    }
+    
     .button:hover{
         filter:contrast(120%);
         /* scale: 103%; */
-        rotate: 0 -1 0 20deg;
+        /* transition: rotate 0.1s; */
+        /* rotate: 0 -1 0 0deg; */
+    }
+    .button:hover .emboss,
+    .button:hover .smallEmboss,
+    .button:hover .bigEmboss {
+        filter: contrast(120%);
     }
     .button#releasesBtn:hover{
-        rotate: 0 1 0 8deg;
+        /* rotate: 0 1 0 8deg; */
     }
     /* .button#contactBtn:hover{
         rotate: 0 -1 0 20deg;
@@ -309,37 +329,64 @@
     /* .button#contactBtn:hover{
         background-image: url(/asset/bg/contact.gif);
     } */
+    
+
+    .panel{
+        --yRotation:0;
+        --xRotation:0;
+        transition: rotate 0.2s;
+        rotate: var(--yRotation) var(--xRotation) 0 7deg;
+    }
+    
+    #buttonContainer{
+        --yRotation:0;
+        --xRotation:0;
+        rotate: var(--yRotation) var(--xRotation) 0 2deg;
+    }
+
+    .smallEmboss{
+        transform: translateZ(7px);
+    }
+    .emboss{
+        transform: translateZ(15px);
+    }
+    .bigEmboss{
+        transform: translateZ(22px);
+    }
 
 </style>
 <body>
     <!-- <div id="bg"></div> -->
-    <div id="buttonContainer">
+    <div id="buttonContainer" class = "fadeTransition">
         <div id="topBtn">
-            <div id="releasesBtn" class="button">
+            <!-- this <a> cause some stupid stuff  -->
+            <!-- <a href="releases.html"> -->
+                <div id="releasesBtn" class="button panel">
+                    
+                    <div class="releasesDot bottom-right smallEmboss"></div>
+                    <div class="releasesDot top-left smallEmboss"></div>
 
-                <div class="releasesDot bottom-right"></div>
-                <div class="releasesDot top-left"></div>
-
-                <div id="releasesText">releases</div>
-                <div id="releasesCircleContainer">
-                    <div id="releasesCircle"></div>
-                </div>
-            </div>
-            <div id="contactBtn" class="button">
-                <div id="contactText">contact</div>
-                <div id="contactDot"></div>
-            </div>
+                    <div id="releasesText" class="emboss">releases</div>
+                    <div id="releasesCircleContainer">
+                        <div id="releasesCircle" class="emboss"></div>
+                    </div>
+                </div>    
+            <!-- </a> -->
+        <div id="contactBtn" class="button panel">
+            <div id="contactText" class="emboss">social</div>
+            <div id="contactDot" class="bigEmboss"></div>
+        </div>
         </div>
         <div id="bottomBtn">
-            <div id="akebi"></div>
+            <div id="akebi" class="panel"></div>
             <div id="bottomRightBtn">
-                <div id="aboutBtn" class="button">
-                    <span id="aboutText">about</span>
-                    <div id="aboutDeco"></div>
+                <div id="aboutBtn" class="button panel">
+                    <span id="aboutText" class="bigEmboss">about</span>
+                    <div id="aboutDeco" class="smallEmboss"></div>
                 </div>
-                <div id="shopBtn" class="button">
-                    <div id="shopCircle">
-                        <div id="shopText">shop</div>
+                <div id="shopBtn" class="button panel">
+                    <div id="shopCircle" class="smallEmboss">
+                        <div id="shopText" class="bigEmboss">shop</div>
                     </div>
                 </div>
             </div>
@@ -347,17 +394,119 @@
     </div>
 </body>
 <script>
-    function transition(){
-        
+    const transitTime = 0.5
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+        // el.style.opacity = 1;
+        el.classList.add("zeroOpacity")
+    });
+    const style = document.createElement('style')
+    style.textContent = `
+    .zeroOpacity {
+        opacity: 0;
     }
 
+    .oneOpacity {
+        opacity: 1;
+    }
+
+    .fadeTransition{
+        transition:opacity ${transitTime}s;
+    }
+    `
+    document.head.appendChild(style)
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+      requestAnimationFrame(() => {
+        el.classList.add("oneOpacity")
+      })
+    });
+    const transitTo = (url)=>{
+        // fetch(url)
+        //     .then(res => res.text())
+        //     .then(html => {
+        //     cache[url] = html
+        // })
+        
+        document.querySelectorAll('.fadeTransition').forEach(el => {
+            // el.style.opacity = 0;
+            el.classList.remove("oneOpacity")
+        });
+        
+        setInterval(()=>{
+            window.location.href = url;
+        },transitTime*1000)
+    }
+
+    const hasMouse = window.matchMedia('(pointer: fine)').matches
+
+    if (hasMouse){
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            
+            document.querySelectorAll('.panel').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                // console.log(x,y );
+                
+                // el.style.setProperty('--xRotation', x-centerX);
+                // el.style.setProperty('--yRotation', centerY-y);
+                
+                // el.style.setProperty('--xRotation', Math.atan((x-centerX)/100));
+                // el.style.setProperty('--yRotation', Math.atan((centerY-y)/100));
+                
+                el.style.setProperty('--xRotation', 500*Math.atan((x-centerX)/10000));
+                el.style.setProperty('--yRotation', 500*Math.atan((centerY-y)/10000));
+            });
+            
+            
+            
+            const buttonContainer = document.getElementById('buttonContainer')
+            const rect = buttonContainer.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            // console.log(x,y );
+            
+            // buttonContainer.style.setProperty('--xRotation', x-centerX);
+            // buttonContainer.style.setProperty('--yRotation', centerY-y);
+            
+            // buttonContainer.style.setProperty('--xRotation', Math.atan((x-centerX)/100));
+            // buttonContainer.style.setProperty('--yRotation', Math.atan((centerY-y)/100));
+        });
+    }else{
+
+        let start = performance.now()
+    document.querySelectorAll('.panel').forEach(el => {
+        function loop() {
+            let t = (performance.now() - start) / 1500 // elapsed time in seconds
+            let x = Math.cos(t)
+            let y = Math.sin(t)
+            el.style.setProperty('--xRotation', x);
+            el.style.setProperty('--yRotation', y);
+            requestAnimationFrame(loop)
+        }
+
+        loop()
+    });
+    }
+    
+    
+
+
+
+
+    
     document.getElementById('releasesBtn').addEventListener('click', () => {
-         
+        // window.location.href = 'releases.html';
+        transitTo( 'releases.html')
     });
     document.getElementById('contactBtn').addEventListener('click', () => {
+        transitTo( 'contact.html')
          
     });
     document.getElementById('aboutBtn').addEventListener('click', () => {
+        transitTo( 'about.html')
          
     });
     document.getElementById('shopBtn').addEventListener('click', () => {

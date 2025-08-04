@@ -25,6 +25,7 @@
     body{
         /* background-color: white; */
         background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
+        background-attachment: fixed;
 
         margin: 0;
         padding: 0;
@@ -37,21 +38,23 @@
         /* justify-content: center;
         align-items: center; */
 
-        /* width: 100vw;
-        height: 100vh; */
+        width: 100vw;
+        /* height: 100vh; */
+        
+        overflow-x: hidden;
         
 
     }
     #bg{
         position: fixed;
         background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
-        top: 0;
+        /* top: 0; */
 
         margin: 0;
         padding: 0;
         width: 100vw;
         height: 100vh;
-        z-index: 0;
+        z-index:0;
     }
 
     .dot{
@@ -94,6 +97,24 @@
         bottom: var(--gapSize);
         left: var(--gapSize);   
         line-height: 0.7;
+        /* text-shadow: 0 0 10px #858588ff; */
+    }
+
+    #backButton{
+        z-index: 3;
+        position:fixed;
+        top: var(--gapSize);
+        left: var(--gapSize);   
+        line-height: 0.7;
+        font-size: 0.5em;
+
+        cursor: pointer;
+        /* text-shadow: 0 0 10px #858588ff; */
+        transition: scale 0.2s;
+    }
+    #backButton:hover{
+        filter: brightness(0%);
+        scale: 120%;
     }
 
     #releaseContainer{
@@ -104,9 +125,11 @@
         display: flex;
         flex-direction: column;
         gap: var(--gapSize);
+        margin-bottom: calc(var(--squareSize) *8/100);
         
         z-index: 2;
     }
+    
     
     .release{
         --buttonSize:min(125px,calc((var(--squareSize) - (var(--gapSize)*4))/4));
@@ -118,10 +141,25 @@
     .artwork{
         height: calc(var(--buttonSize)*2);
         width: calc(var(--buttonSize)*2);
+        border-radius: var(--dotSize);
     }
     .linkImage{
         height: var(--buttonSize);
         width: var(--buttonSize);
+        cursor: pointer;
+    }
+    .linkImage:hover{
+        filter: brightness(50%);
+        scale: 103%;
+    }
+    a{
+        padding: 0;
+        margin: 0;
+    }
+    @keyframes sineMove {
+        0%   { transform: translateY(-5px); }
+        50%  { transform: translateY(5px); }
+        100% { transform: translateY(-5px); }
     }
 
 
@@ -129,23 +167,156 @@
 
 </style>
 <body>
-    <div id="tlDot" class="dot"></div>
-    <div id="brDot" class="dot"></div>
-    <div id="circle"></div>
-    <div id="releaseContainer">
-        <div class="release">
-            <img class="artwork" src="asset/bg/song cover/memento mori.jpg" alt="" class="linkImage">
-            <a href="" class="soundcloudButton"><img src="asset/icon/soundcloud brown.png" alt="" class="linkImage"></a>
-            <a href="" class="spotifyButton"><img src="asset/icon/spotify brown.png" alt="" class="linkImage"></a>
-        </div>
-        <div class="release">
-            <img class="artwork" src="asset/bg/song cover/wishful.jpg" alt="" class="linkImage">
-            <a href="" class="soundcloudButton"><img src="asset/icon/soundcloud brown.png" alt="" class="linkImage"></a>
-            <a href="" class="spotifyButton"><img src="asset/icon/spotify brown.png" alt="" class="linkImage"></a>
-        </div>
-    </div>
-    <div id="releasesText">releases</div>
+    <div class="fadeTransition" style="display:flex;">
+        <div id="tlDot" class="dot"></div>
+        <div id="brDot" class="dot"></div>
+        <div id="circle"></div>
+        <div id="backButton">back</div>
+        <div id="releaseContainer"></div>
+        <div id="releasesText">releases</div>
+</div>
+    <!-- <div id="backButton"><a href="./index.html">back</a></div> -->
+    <!-- <div id="bg"></div> -->
 </body>
-<script> 
-</script>
+<script>
+    const transitTime = 0.5
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+        // el.style.opacity = 1;
+        el.classList.add("zeroOpacity")
+    });
+    const style = document.createElement('style')
+    style.textContent = `
+    .zeroOpacity {
+        opacity: 0;
+    }
+
+    .oneOpacity {
+        opacity: 1;
+    }
+
+    .fadeTransition{
+        transition:opacity ${transitTime}s;
+    }
+    `
+    document.head.appendChild(style)
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+      requestAnimationFrame(() => {
+        el.classList.add("oneOpacity")
+      })
+    });
+    const transitTo = (url)=>{
+        // fetch(url)
+        //     .then(res => res.text())
+        //     .then(html => {
+        //     cache[url] = html
+        // })
+        
+        document.querySelectorAll('.fadeTransition').forEach(el => {
+            // el.style.opacity = 0;
+            el.classList.remove("oneOpacity")
+        });
+        
+        setInterval(()=>{
+            window.location.href = url;
+        },transitTime*1000)
+    }
+
+    const releases = [
+    {
+        artwork: 'asset/bg/song cover/memento mori.jpg',
+        soundcloud: 'https://soundcloud.com/akebi_chapters/memento-mori-anv9',
+        spotify: 'https://open.spotify.com/track/20eEyG6GwB3Nsx7DUV25S0'
+      },
+      {
+        artwork: 'asset/bg/song cover/wistful.jpg',
+        soundcloud: 'https://soundcloud.com/hyperaxis/makenai-ukyou-abiraka-kia-aerience-wistful',
+        spotify: 'https://open.spotify.com/track/2SZQFoBXArxOLoWkw5w9e0'
+      }
+    ];
+  
+    const container = document.getElementById('releaseContainer')
+  
+    // Clear all except releasesText
+    container.innerHTML = '';
+    
+    const topPad = document.createElement('div');
+    topPad.style.color = "#0000";
+    topPad.style.lineHeight = "0.7";
+    topPad.innerText = "back";
+    topPad.style.fontSize="0.5em";
+    container.appendChild(topPad);
+
+    releases.forEach(item => {
+      const releaseDiv = document.createElement('div');
+      releaseDiv.className = 'release';
+      releaseDiv.style.animation = `sineMove ${Math.random()*3 +5}s infinite ease-in-out`;
+  
+      const img = document.createElement('img');
+      img.className = 'artwork';
+      img.src = item.artwork;
+      img.alt = '';
+    //   img.classList.add('linkImage');
+  
+    //   const soundcloudLink = document.createElement('a');
+    //   soundcloudLink.target = "_blank"
+    //   soundcloudLink.rel = "noopener noreferrer"
+    //   soundcloudLink.href = item.soundcloud;
+    //   soundcloudLink.className = 'soundcloudButton';
+    //   const scImg = document.createElement('img');
+    //   scImg.src = 'asset/icon/soundcloud brown.png';
+    //   scImg.alt = '';
+    //   scImg.className = 'linkImage';
+    //   soundcloudLink.appendChild(scImg);
+  
+    //   const spotifyLink = document.createElement('a');
+    //   spotifyLink.target = "_blank"
+    //   spotifyLink.rel = "noopener noreferrer"
+    //   spotifyLink.href = item.spotify;
+    //   spotifyLink.className = 'spotifyButton';
+    //   const spImg = document.createElement('img');
+    //   spImg.src = 'asset/icon/spotify brown.png';
+    //   spImg.alt = '';
+    //   spImg.className = 'linkImage';
+    //   spotifyLink.appendChild(spImg);
+  
+        const soundcloudLink = document.createElement('img');
+        // soundcloudLink.href = item.soundcloud;
+        soundcloudLink.src = 'asset/icon/soundcloud brown.png';
+        soundcloudLink.alt = '';
+        soundcloudLink.className = 'linkImage soundcloudButton';
+        soundcloudLink.addEventListener('click', () => {
+            window.open(item.soundcloud, '_blank');
+        });
+        releaseDiv.appendChild(soundcloudLink);
+
+        const spotifyLink = document.createElement('img');
+        // spotifyLink.href = item.spotify;
+        spotifyLink.src = 'asset/icon/spotify brown.png';
+        spotifyLink.alt = '';
+        spotifyLink.className = 'linkImage spotifyButton';
+        spotifyLink.addEventListener('click', () => {
+            window.open(item.spotify, '_blank');
+        });
+        releaseDiv.appendChild(spotifyLink);
+  
+      releaseDiv.appendChild(img);
+      releaseDiv.appendChild(soundcloudLink);
+      releaseDiv.appendChild(spotifyLink);
+  
+      container.appendChild(releaseDiv);
+    });
+  
+    const pad = document.createElement('div');
+    pad.style.color = "#0000";
+    pad.style.lineHeight = "0.7";
+    pad.innerText = "releases";
+    container.appendChild(pad);
+
+    
+    document.getElementById('backButton').addEventListener('click', () => {
+        // window.location.href = 'index.html';
+        transitTo('index.html')
+    });
+  </script>
+  
 </html>

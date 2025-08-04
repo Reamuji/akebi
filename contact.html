@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akebi</title>
+</head>
+<style>
+    :root{
+        --squareSize : min(100vh,100vw);
+        /* --buttonGap : 15px; */
+        --gapSize : 30px;
+        --dotSize : calc(var(--gapSize)/3);
+
+        --accentColor: #403b3cff;
+    }
+    @font-face {
+        font-family: 'AdobeSong';
+        src: url('/asset/Adobe\ Song\ Std\ L.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+
+    body{
+        /* background-color: white; */
+        background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
+        background-attachment: fixed;
+
+        margin: 0;
+        padding: 0;
+
+        color: var(--accentColor);
+        font-family: 'AdobeSong', sans-serif;
+        font-size: calc(var(--squareSize) *8/100);
+        
+        display: flex;
+        /* justify-content: center;
+        align-items: center; */
+
+        width: 100vw;
+        /* height: 100vh; */
+        
+        overflow-x: hidden;
+    }
+
+    #backButton{
+        z-index: 3;
+        position:fixed;
+        top: var(--gapSize);
+        left: var(--gapSize);   
+        line-height: 0.7;
+        font-size: 0.5em;
+
+        cursor: pointer;
+        /* text-shadow: 0 0 10px #858588ff; */
+        transition: scale 0.2s;
+    }
+    #backButton:hover{
+        filter: brightness(0%);
+        scale: 120%;
+    }
+
+    #mainContent{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #circle{
+        display: flex;
+        align-items: center;
+        background-color: var(--accentColor);
+        color: #c9b3aaff;
+        aspect-ratio: 1/1;
+        border-radius: 100%;
+        padding: var(--dotSize);
+
+    }
+    .centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: top left;
+    }
+
+    @keyframes rotateClockwise {
+        0%   { rotate:0deg}
+        100% { rotate: 360deg; }
+    }
+    @keyframes rotateCounterclockwise {
+        0%   { rotate:0deg}
+        100% { rotate: -360deg; }
+    }
+
+    #social{
+        animation : rotateClockwise 10s infinite linear;
+    }
+    
+    .socialIcon{
+        width: 1em;
+        height: 1em;
+    }
+    .socialContainer:has(#soundcloud) {
+        width: calc(var(--squareSize) - 1em);
+        animation : rotateClockwise 300s infinite linear;
+        animation-delay: -30s;
+    }
+    #soundcloud{
+        animation : rotateCounterclockwise 300s infinite linear;
+        animation-delay: -30s;
+    }
+
+    .socialContainer:has(#spotify) {
+        width: calc(var(--squareSize) - 4em);
+        animation : rotateClockwise 150s infinite linear;
+        animation-delay: -30s;
+    }
+    #spotify{
+        animation : rotateCounterclockwise 150s infinite linear;
+        animation-delay: -30s;
+    }
+
+    .socialContainer:has(#gmail) {
+        width: calc(var(--squareSize) - 7em);
+        animation : rotateClockwise 75s infinite linear;
+        animation-delay: -30s;
+    }
+    #gmail{
+        animation : rotateCounterclockwise 75s infinite linear;
+        animation-delay: -30s;
+    }
+    
+    #gmail:hover,
+    #spotify:hover,
+    #soundcloud:hover{
+        animation-play-state:paused;
+        scale: 110%;
+    }
+    
+    .socialContainer:has(#gmail:hover),
+    .socialContainer:has(#spotify:hover),
+    .socialContainer:has(#soundcloud:hover){
+        animation-play-state: paused;
+        /* scale: 110%; */
+    }
+    .orbitRoute{
+        border: 1px var(--accentColor) dashed;
+        aspect-ratio: 1/1;
+        border-radius: 100%;
+    }
+
+.orbitRoute.One{
+    width: calc(var(--squareSize) - 8em);
+}
+
+.orbitRoute.Two{
+    width: calc(var(--squareSize) - 5em);
+}
+
+.orbitRoute.Three{
+    width: calc(var(--squareSize) - 2em);
+}
+
+
+</style>
+<body>
+    <span class="fadeTransition">
+        <div id="backButton">back</div>
+        <div id="mainContent">
+            <div id="circle" class="centered">
+                social
+            </div>
+            
+            <div class="centered orbitRoute One"></div>
+            <div class="centered orbitRoute Two"></div>
+            <div class="centered orbitRoute Three"></div>
+            <div class="centered socialContainer">
+                <img id="soundcloud" class="socialIcon" src="/asset/icon/soundcloud brown.png" alt="">
+            </div>
+            <div class="centered socialContainer">
+                <img id="spotify" class="socialIcon" src="/asset/icon/spotify brown.png" alt="">
+            </div>
+            <div class="centered socialContainer">
+                <img id="gmail" class="socialIcon" src="/asset/icon/gmail brown.png" alt="">
+            </div>
+            
+        </div>
+        <!-- nanti dibikin muter socialsnya
+        lambat aja biar gk ganggu, sama pause pas di hover -->
+    </span>
+</body>
+<script>
+    const transitTime = 0.5
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+        // el.style.opacity = 1;
+        el.classList.add("zeroOpacity")
+    });
+    const style = document.createElement('style')
+    style.textContent = `
+    .zeroOpacity {
+        opacity: 0;
+    }
+
+    .oneOpacity {
+        opacity: 1;
+    }
+
+    .fadeTransition{
+        transition:opacity ${transitTime}s;
+    }
+    `
+    document.head.appendChild(style)
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+      requestAnimationFrame(() => {
+        el.classList.add("oneOpacity")
+      })
+    });
+    const transitTo = (url)=>{
+        
+        document.querySelectorAll('.fadeTransition').forEach(el => {
+            el.classList.remove("oneOpacity")
+        });
+        
+        setInterval(()=>{
+            window.location.href = url;
+        },transitTime*1000)
+    }
+
+    
+    document.getElementById('backButton').addEventListener('click', () => {
+        // window.location.href = 'index.html';
+        transitTo('index.html')
+    });
+  </script>
+  
+</html>

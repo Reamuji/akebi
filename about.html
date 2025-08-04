@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akebi</title>
+</head>
+<style>
+    :root{
+        --squareSize : min(100vh,100vw);
+        /* --buttonGap : 15px; */
+        --gapSize : 30px;
+        --dotSize : calc(var(--gapSize)/3);
+
+        --accentColor: #403b3cff;
+    }
+    @font-face {
+        font-family: 'AdobeSong';
+        src: url('/asset/Adobe\ Song\ Std\ L.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+
+    body{
+        /* background-color: white; */
+        background-image: linear-gradient(225deg, #eff5f3ff,#e6dfc6ff, #c9b3aaff,#998f95ff, #858588ff);
+        background-attachment: fixed;
+
+        margin: 0;
+        padding: 0;
+
+        color: var(--accentColor);
+        font-family: 'AdobeSong', sans-serif;
+        font-size: calc(var(--squareSize) *8/100);
+        
+        display: flex;
+        /* justify-content: center;
+        align-items: center; */
+
+        width: 100vw;
+        /* height: 100vh; */
+        
+        overflow-x: hidden;
+    }
+
+    #backButton{
+        z-index: 3;
+        position:fixed;
+        top: var(--gapSize);
+        left: var(--gapSize);   
+        line-height: 0.7;
+        font-size: 0.5em;
+
+        cursor: pointer;
+        /* text-shadow: 0 0 10px #858588ff; */
+        transition: scale 0.2s;
+    }
+    #backButton:hover{
+        filter: brightness(0%);
+        scale: 120%;
+    }
+
+    #container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        
+    }
+    #maincontent{
+        width: var(--squareSize);
+        height: var(--squareSize);
+        box-sizing: border-box;
+        padding: var(--gapSize);
+    }
+    
+    #text{
+        height: 50%;
+        
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between; */
+        justify-content:end;
+    }
+    #title{
+        text-align: center;
+    }
+    #content{
+        line-height: 1;
+        font-size: 18px;
+        margin-bottom: var(--gapSize);
+    }
+    #semicircle{
+        /* height: calc(100vh - var(--gapSize) - var(--gapSize)); */
+        /* width: calc(100vh - var(--gapSize) - var(--gapSize)); */
+        border: 3px var(--accentColor) solid;
+        height: 50%;
+        box-sizing: border-box;
+        border-radius: 0 0 100vh 100vh;
+    }
+
+
+
+
+</style>
+<body>
+    <span class="fadeTransition">
+        <div id="backButton">back</div>
+        <div id="container">
+            <div id="maincontent">
+                <div id="text">
+                    <div id="title">About</div>
+                    <div id="content">
+                        <br>Akebi! is an online community founded in July 2018 that strives to create an inviting atmosphere for artists of all mediums to share, collaborate, discuss, and to showcase their work. Through our various compilations and showcases, we've raised over $100,000 for charities, hosted a diverse set of events (both online and in person), and released hundreds of songs and a variety of physical items.<br>
+                        <br>
+                        <br>Want to get involved? Our doors are open. Creatives of all kinds are welcome to join our community, whether to participate in our events or just to chat. Type REG space WETON, send to 2354.</div>
+                </div>
+                <div id="semicircle"></div>
+            </div>
+        </div>
+    </span>
+</body>
+<script>
+    const transitTime = 0.5
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+        // el.style.opacity = 1;
+        el.classList.add("zeroOpacity")
+    });
+    const style = document.createElement('style')
+    style.textContent = `
+    .zeroOpacity {
+        opacity: 0;
+    }
+
+    .oneOpacity {
+        opacity: 1;
+    }
+
+    .fadeTransition{
+        transition:opacity ${transitTime}s;
+    }
+    `
+    document.head.appendChild(style)
+    document.querySelectorAll('.fadeTransition').forEach(el => {
+      requestAnimationFrame(() => {
+        el.classList.add("oneOpacity")
+      })
+    });
+    const transitTo = (url)=>{
+        
+        document.querySelectorAll('.fadeTransition').forEach(el => {
+            el.classList.remove("oneOpacity")
+        });
+        
+        setInterval(()=>{
+            window.location.href = url;
+        },transitTime*1000)
+    }
+
+    
+    document.getElementById('backButton').addEventListener('click', () => {
+        // window.location.href = 'index.html';
+        transitTo('index.html')
+    });
+  </script>
+  
+</html>
